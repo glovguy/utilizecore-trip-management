@@ -1,4 +1,4 @@
 Rails.application.routes.draw do
-  root 'sessions#index'
+  root 'trips#index'
   get '/login', to: 'sessions#index', as: 'login'
 end
