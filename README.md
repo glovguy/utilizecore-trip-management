@@ -2,9 +2,9 @@
 
 ## Todo
 
-- [ ] User login
+- [x] User login
   - [x] User model {email, fullname}
-  - [ ] login page functionality, upsert, gives session cookie
+  - [x] login page functionality, upsert, gives session cookie
 - [ ] CRUD trips
   - [ ] Trips model {status, owner, assignee, location, eta, ETC, start_time, end_time}
   - [ ] Trip create endpoint

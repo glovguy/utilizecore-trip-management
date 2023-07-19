@@ -1,0 +1,6 @@
+
+<%= form_tag(login_path, method: :get) do %>
+  <%= label_tag(:email, "Email Address:") %>
+  <%= text_field_tag(:email, params[:email]) %><p>
+  <%= submit_tag("Log In") %>
+<% end %>
