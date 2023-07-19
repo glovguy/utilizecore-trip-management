@@ -3,7 +3,7 @@
 ## Todo
 
 - [ ] User login
-  - [ ] User model {email, fullname}
+  - [x] User model {email, fullname}
   - [ ] login page functionality, upsert, gives session cookie
 - [ ] CRUD trips
   - [ ] Trips model {status, owner, assignee, location, eta, ETC, start_time, end_time}
