@@ -9,13 +9,13 @@
   - [x] Add webpack / react
   - [x] Trips dashboard with list
   - [x] Trips model {status, owner, assignee, location, eta, ETC, start_time, end_time}
-  - [ ] Trip create endpoint (modal)
+  - [x] Trip create endpoint (modal)
     - [x] Modal display
     - [x] Create API call
     - [x] Current user in payload
     - [x] assignee selection
-    - [ ] Address
-    - [ ] ETA, ETC datetime selector
+    - [x] Address
+    - [x] ETA, ETC datetime selector
   - [x] list/get trips
   - [ ] edit trip assignee (modal)
 - [ ] Assignees seed script

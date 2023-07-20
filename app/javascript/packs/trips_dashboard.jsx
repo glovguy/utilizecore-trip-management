@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { createRoot } from 'react-dom/client';
 import NewTripModal from './new_trip_modal.tsx';
 
+
 const TripsDashboard = ({ current_user_id }) => {
   const [trips, setTrips] = useState();
   const [users, setUsers] = useState();
@@ -40,8 +41,8 @@ const TripsDashboard = ({ current_user_id }) => {
       <tbody>
         {trips.map((trip) => (
           <tr key={trip.id}>
-            <td>{trip.assignee}</td>
-            <td>{trip.owner}</td>
+            <td>{users.find(user => user.id === trip.assignee_id).full_name}</td>
+            <td>{users.find(user => user.id === trip.owner_id).full_name}</td>
             <td>{trip.address}</td>
             <td>{trip.eta}</td>
             <td>{trip.etc}</td>
