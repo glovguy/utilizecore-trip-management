@@ -7,13 +7,13 @@
   - [x] login page functionality, upsert, gives session cookie
 - [ ] CRUD trips
   - [x] Add webpack / react
-  - [ ] Trips dashboard with list
-  - [ ] Trips model {status, owner, assignee, location, eta, ETC, start_time, end_time}
-  - [ ] Trip create endpoint
-  - [ ] list/get trips
-  - [ ] edit trip assignee
+  - [x] Trips dashboard with list
+  - [x] Trips model {status, owner, assignee, location, eta, ETC, start_time, end_time}
+  - [ ] Trip create endpoint (modal)
+  - [x] list/get trips
+  - [ ] edit trip assignee (modal)
 - [ ] Assignees seed script
-- [ ] Front end
+- [ ] Front end polish
   - [ ] Login page
   - [ ] Trip review page
   - [ ] Trip create modal

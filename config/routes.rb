@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
-  root 'trips#index'
+  root 'trips_dashboard#index'
   get '/login', to: 'sessions#index', as: 'login'
+  resources :trips, only: [:index]
 end

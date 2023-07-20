@@ -10,7 +10,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_07_19_170227) do
+ActiveRecord::Schema[7.0].define(version: 2023_07_20_002142) do
+  create_table "trips", force: :cascade do |t|
+    t.integer "assignee_id", null: false
+    t.integer "owner_id", null: false
+    t.string "address"
+    t.datetime "eta"
+    t.datetime "etc"
+    t.integer "status"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["assignee_id"], name: "index_trips_on_assignee_id"
+    t.index ["owner_id"], name: "index_trips_on_owner_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email"
     t.string "full_name"
@@ -18,4 +31,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_19_170227) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "trips", "users", column: "assignee_id"
+  add_foreign_key "trips", "users", column: "owner_id"
 end
