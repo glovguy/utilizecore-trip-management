@@ -1,40 +1,30 @@
 import React, { useState, useEffect } from 'react'
 import { createRoot } from 'react-dom/client';
+import NewTripModal from './new_trip_modal.tsx';
 
-import PropTypes from 'prop-types'
-
-const Hello = props => (
-  <div>Hello {props.name}!</div>
-)
-
-Hello.defaultProps = {
-  name: 'David'
-}
-
-Hello.propTypes = {
-  name: PropTypes.string
-}
-
-// const TripsTable = (props) => (
-  
-// );
-
-const TripsDashboard = (props) => {
+const TripsDashboard = ({ current_user_id }) => {
   const [trips, setTrips] = useState();
+  const [users, setUsers] = useState();
+
   useEffect(() => {
     async function fetchTrips() {
       const response = await fetch('/trips');
       const tripsJson = await response.json();
       setTrips(tripsJson);
-      console.log(tripsJson)
+    }
+    async function fetchUsers() {
+      const response = await fetch('/users');
+      const usersJson = await response.json();
+      setUsers(usersJson);
     }
     fetchTrips();
+    fetchUsers();
   }, []);
   if (!trips) { return <span>Loading...</span>; }
 
   return (
     <>
-    <button>+</button>
+    <NewTripModal users={users} owner_id={current_user_id} />
     <table>
       <thead>
         <tr>
@@ -70,5 +60,6 @@ const TripsDashboard = (props) => {
 
 export default TripsDashboard
 
+const current_user_id = document.querySelector("#session").attributes["data-current-user-id"].value
 const root = createRoot(document.body.appendChild(document.createElement('div')));
-root.render(<TripsDashboard />);
+root.render(<TripsDashboard current_user_id={current_user_id}/>);
