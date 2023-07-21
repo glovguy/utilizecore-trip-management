@@ -1,23 +1,23 @@
 # README
 
-* Ruby version
+## Ruby version
 
 `3.1.0`
 
-* System dependencies
+## System dependencies
 
 ```
 bundle install
 yarn
 ```
 
-* Database creation
+## Database creation
 
 ```
 bundle exec rails db:migrate
 ```
 
-* Database initialization
+## Database initialization
 
 To seed the test users, run:
 
@@ -25,7 +25,7 @@ To seed the test users, run:
 bundle exec rake db:seed
 ```
 
-* How to run
+## How to run
 
 In two terminals, run the following:
 
