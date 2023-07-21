@@ -59,7 +59,11 @@ function NewTripModal({ users, currentUserId, newTripCreated }) {
     })
     const data = await response.json();
     newTripCreated(data);
-    closeModal()
+    setSelectedAssignee(undefined);
+    setAddress('');
+    setEta(new Date());
+    setEtc(new Date());
+    closeModal();
   };
 
   return (

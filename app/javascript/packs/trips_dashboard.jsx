@@ -17,6 +17,11 @@ const TripsDashboard = ({ current_user_id }) => {
     async function fetchTrips() {
       const response = await fetch('/trips');
       const tripsJson = await response.json();
+      tripsJson.forEach((trip) => {
+        if (dayjs(trip.eta) < dayjs()) {
+          trip.status = 'overdue';
+        }
+      })
       setTrips(tripsJson);
     }
     async function fetchUsers() {
@@ -36,6 +41,21 @@ const TripsDashboard = ({ current_user_id }) => {
   const tripEdited = (editedTrip) => {
     const newTrips = trips.map((trip) => (trip.id === editedTrip.id) ? editedTrip : trip);
     setTrips(newTrips);
+  };
+
+  const updateTripStatus = async (trip_id, status) => {
+    const payload = {
+      status: status
+    };
+    const response = await fetch(`/trips/${trip_id}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(payload)
+    });
+    const data = await response.json();
+    tripEdited(data);
   };
 
   return (
@@ -99,7 +119,7 @@ const TripsDashboard = ({ current_user_id }) => {
         </thead>
         <tbody>
           {trips.map((trip) => (
-            <TripTableRow key={trip.id} trip={trip} users={users} tripEdited={tripEdited} />
+            <TripTableRow key={trip.id} trip={trip} users={users} tripEdited={tripEdited} updateTripStatus={updateTripStatus} />
           ))}
         </tbody>
       </table>
@@ -107,7 +127,7 @@ const TripsDashboard = ({ current_user_id }) => {
   );
 };
 
-const TripTableRow = ({ trip, users, tripEdited }) => {
+const TripTableRow = ({ trip, users, tripEdited, updateTripStatus }) => {
   return (
     <tr style={{width: '100%', height: '41px', paddingRight: '8px', background: '#FBFDFF', borderRadius: '4px', overflow: 'hidden', justifyContent: 'flex-start', alignItems: 'center', gap: '8px', display: 'inline-flex'}}>
       <td style={{flex: '1 1 0', paddingLeft: '8px', minHeight: '18px', justifyContent: 'flex-start', alignItems: 'center', gap: '8px', display: 'flex'}}>
@@ -152,13 +172,14 @@ const TripTableRow = ({ trip, users, tripEdited }) => {
         </div>
       </td>
       <td style={{flex: '1 1 0', height: '28px', justifyContent: 'flex-start', alignItems: 'flex-start', display: 'flex'}}>
-        <Status status={trip.status} />
+        <Status status={trip.status} trip={trip} />
       </td>
 
       <td style={{height: '28px', minWidth: '206px', borderRadius: '4px', overflow: 'hidden', justifyContent: 'flex-end', alignItems: 'flex-start', gap: '1px', display: 'flex'}}>
           <div style={{justifyContent: 'flex-start', alignItems: 'center', gap: '4px', display: 'flex'}}>
             <div style={{color: 'white', paddingLeft: '12.45px', paddingRight: '12.45px', borderRadius: '4px', background: '#1A6EFB', fontSize: '12px', fontFamily: 'Roboto', fontWeight: '500', textTransform: 'uppercase', lineHeight: '14.40px', wordWrap: 'break-word'}}>
-              <button style={{paddingTop: '4px', paddingBottom: '4px', padding: '4px', background: 'transparent', border: 'none', color: 'white'}} onClick={() => props.onEdit(trip.id)}>CHECK IN</button>
+              {trip.status === "not_started" && <button style={{cursor: 'pointer', paddingTop: '4px', paddingBottom: '4px', padding: '4px', background: 'transparent', border: 'none', color: 'white'}} onClick={() => updateTripStatus(trip.id, 'in_progress')}>CHECK IN</button>}
+              {(trip.status === "in_progress" || trip.status === "overdue") && <button style={{cursor: 'pointer', paddingTop: '4px', paddingBottom: '4px', padding: '4px', background: 'transparent', border: 'none', color: 'white'}} onClick={() => updateTripStatus(trip.id, 'completed')}>CHECK OUT</button>}
             </div>
             {
             (trip.owner_id == current_user_id || 
@@ -235,15 +256,26 @@ const OverdueIcon = () => {
   );
 };
 
-const Status = ({ status }) => {
+const Status = ({ status, trip }) => {
   let icon, buttonText, backgroundColor;
+  let now = new Date();
+  
+  useEffect(() => {
+    const oneMinute = 60 * 1000;
+    const interval = setInterval(() => {
+      now = new Date();
+    }, oneMinute);
+    return () => clearTimeout(interval);
+  }, []);
+
+  console.log(now, trip.start_time)
   if (status === 'not_started') {
     icon = <UnstartedIcon />;
     buttonText = 'Not Started';
     backgroundColor = '#6994DE';
   } else if (status === 'in_progress') {
     icon = <InProgressIcon />;
-    buttonText = 'In Progress';
+    buttonText = `In Progress - Total ${dayjs(now - new Date(trip.start_time)).format('h:mm')}`;
     backgroundColor = '#FFA525';
   } else if (status === 'completed') {
     icon = <CompletedIcon />;

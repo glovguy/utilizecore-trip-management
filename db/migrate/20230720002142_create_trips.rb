@@ -6,6 +6,8 @@ class CreateTrips < ActiveRecord::Migration[7.0]
       t.string :address
       t.timestamp :eta
       t.timestamp :etc
+      t.timestamp :start_time
+      t.timestamp :end_time
       t.integer :status
 
       t.timestamps

@@ -17,6 +17,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_07_20_002142) do
     t.string "address"
     t.datetime "eta"
     t.datetime "etc"
+    t.datetime "start_time"
+    t.datetime "end_time"
     t.integer "status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
