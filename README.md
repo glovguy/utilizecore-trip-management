@@ -27,8 +27,8 @@
 - [ ] Front end polish
   - [ ] Login page
   - [x] Trip review page
-  - [ ] Trip create modal
-  - [ ] Trip reassign modal
+  - [x] Trip create modal
+  - [x] Trip reassign modal
 
 * Ruby version
 

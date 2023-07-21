@@ -14,7 +14,7 @@ const customStyles = {
   },
 };
 
-function EditTripModal({ users, currentUserId, trip }) {
+function EditTripModal({ users, trip, tripEdited }) {
   const [modalIsOpen, setIsOpen] = React.useState(false);
   const assignee = users.find(user => user.id === trip.assignee_id);
   const [selectedAssignee, setSelectedAssignee] = React.useState({ value: trip.assignee_id, label: assignee.email });
@@ -34,7 +34,7 @@ function EditTripModal({ users, currentUserId, trip }) {
     return <div>Loading...</div>
   }
 
-  const editTrip = () => {
+  const editTrip = async () => {
     if (!selectedAssignee || 
       !selectedAssignee.value) {
       return;
@@ -42,21 +42,21 @@ function EditTripModal({ users, currentUserId, trip }) {
     const payload = {
       assignee_id: selectedAssignee.value
     };
-    fetch(`/trips/${trip.id}`, {
+    const response = await fetch(`/trips/${trip.id}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(payload)
-    }).then(() => {
-      closeModal();
-    });
-    console.log(payload);
+    })
+    const data = await response.json();
+    tripEdited(data);
+    closeModal();
   };
 
   return (
     <div>
-      <button style={{paddingTop: '4px', paddingBottom: '4px', background: 'transparent', border: 'none', color: 'white'}} onClick={openModal}>REASSIGN</button>
+      <button style={{cursor: 'pointer', paddingTop: '4px', paddingBottom: '4px', background: 'transparent', border: 'none', color: 'white'}} onClick={openModal}>REASSIGN</button>
       <Modal
         isOpen={modalIsOpen}
         onRequestClose={closeModal}
@@ -176,7 +176,6 @@ const EditTripModalBody = ({
                 <div style={{flex: '1 1 0', height: '20px', justifyContent: 'flex-start', alignItems: 'flex-start', display: 'flex'}}>
                   <div style={{flex: '1 1 0', height: '20px', justifyContent: 'flex-start', alignItems: 'flex-start', gap: '10px', display: 'flex'}}>
                     <AssigneeDropdown users={users} selectedAssignee={selectedAssignee} setSelectedAssignee={setSelectedAssignee} style={{ display: 'flex' }} />
-                    {/* <div style={{color: '#12274A', fontSize: '14px', fontFamily: 'Roboto', fontWeight: '400', lineHeight: '20px', wordWrap: 'break-word'}}>Select Assignee</div> */}
                   </div>
                 </div>
                 <div style={{justifyContent: 'center', alignItems: 'center', display: 'flex'}}>

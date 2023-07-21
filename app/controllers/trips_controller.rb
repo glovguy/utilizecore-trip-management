@@ -7,6 +7,7 @@ class TripsController < ApplicationController
 
   def create
     trip = Trip.new(trip_create_params)
+    trip.status = :not_started
     if trip.save
       render json: trip
     else

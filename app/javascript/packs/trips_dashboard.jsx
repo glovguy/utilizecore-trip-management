@@ -29,95 +29,78 @@ const TripsDashboard = ({ current_user_id }) => {
     fetchUsers();
   }, []);
   if (!trips) { return <span>Loading...</span>; }
+  
+  const newTripCreated = (newTrip) => {
+    setTrips([...trips, newTrip]);
+  };
+
+  const tripEdited = (editedTrip) => {
+    const newTrips = trips.map((trip) => (trip.id === editedTrip.id) ? editedTrip : trip);
+    setTrips(newTrips);
+  };
 
   return (
-    <div style={{ width: '1184px', backgroundColor: '#CFE0FD' }}>
+    <div style={{ width: '95%', padding: '8px', backgroundColor: '#CFE0FD' }}>
       <div className="Checkbox" style={{height: '28px', padding: '8px'}}>
-        <NewTripModal users={users} currentUserId={current_user_id} />
+        <NewTripModal users={users} currentUserId={current_user_id} newTripCreated={newTripCreated} />
       </div>
       <table>
         <thead>
-          <tr style={{minWidth: '1184px', height: '24px', paddingRight: '8px', background: '#FBFDFF', borderRadius: '4px', overflow: 'hidden', justifyContent: 'flex-start', alignItems: 'center', gap: '8px', display: 'inline-flex'}}>
-            {/* <th>Assignee</th>
-            <th>Owner</th>
-            <th>Address</th>
-            <th>ETA</th>
-            <th>ETC</th>
-            <th>Status</th>
-            <th>Actions</th> */}
-            {/* <div className="TableHeader" style={{width: '1184px', height: '24px', paddingRight: '8px', background: '#FBFDFF', borderRadius: '4px', overflow: 'hidden', justifyContent: 'flex-start', alignItems: 'center', gap: '8px', display: 'inline-flex'}}> */}
-              {/* <div className="Component2" style={{width: 3, height: '24px', position: 'relative'}} /> */}
-              <th className="BaseId" style={{paddingLeft: '8px', flex: '1 1 0', height: '18px', justifyContent: 'flex-start', alignItems: 'center', gap: '8px', display: 'flex'}}>
-                <div className="BaseInvoiceDetails" style={{flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', display: 'inline-flex'}}>
-                  <div className="BaseInvoiceNo" style={{height: '18px', justifyContent: 'flex-start', alignItems: 'flex-start', display: 'inline-flex'}}>
-                    <div className="Assignee" style={{color: '#12274A', fontSize: '16px', fontFamily: 'Roboto', fontWeight: '500', lineHeight: '21px', wordWrap: 'break-word'}}><b>Assignee</b></div>
-                  </div>
+          <tr style={{minWidth: '100%', height: '24px', paddingRight: '8px', background: '#FBFDFF', borderRadius: '4px', overflow: 'hidden', justifyContent: 'flex-start', alignItems: 'center', gap: '8px', display: 'inline-flex'}}>
+            <th className="BaseId" style={{paddingLeft: '8px', flex: '1 1 0', height: '18px', justifyContent: 'flex-start', alignItems: 'center', gap: '8px', display: 'flex'}}>
+              <div className="BaseInvoiceDetails" style={{flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', display: 'inline-flex'}}>
+                <div className="BaseInvoiceNo" style={{height: '18px', justifyContent: 'flex-start', alignItems: 'flex-start', display: 'inline-flex'}}>
+                  <div className="Assignee" style={{color: '#12274A', fontSize: '16px', fontFamily: 'Roboto', fontWeight: '500', lineHeight: '21px', wordWrap: 'break-word'}}><b>Assignee</b></div>
                 </div>
-              </th>
-              <th className="BaseId" style={{flex: '1 1 0', height: '18px', justifyContent: 'flex-start', alignItems: 'center', gap: '8px', display: 'flex'}}>
-                <div className="BaseInvoiceDetails" style={{flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', display: 'inline-flex'}}>
-                  <div className="BaseInvoiceNo" style={{height: '18px', justifyContent: 'flex-start', alignItems: 'flex-start', display: 'inline-flex'}}>
-                    <div className="Owner" style={{color: '#12274A', fontSize: '16px', fontFamily: 'Roboto', fontWeight: '500', lineHeight: '21px', wordWrap: 'break-word'}}><b>Owner</b></div>
-                  </div>
+              </div>
+            </th>
+            <th className="BaseId" style={{flex: '1 1 0', height: '18px', justifyContent: 'flex-start', alignItems: 'center', gap: '8px', display: 'flex'}}>
+              <div className="BaseInvoiceDetails" style={{flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', display: 'inline-flex'}}>
+                <div className="BaseInvoiceNo" style={{height: '18px', justifyContent: 'flex-start', alignItems: 'flex-start', display: 'inline-flex'}}>
+                  <div className="Owner" style={{color: '#12274A', fontSize: '16px', fontFamily: 'Roboto', fontWeight: '500', lineHeight: '21px', wordWrap: 'break-word'}}><b>Owner</b></div>
                 </div>
-              </th>
-              <th className="BaseId" style={{flex: '1 1 0', height: '18px', justifyContent: 'flex-start', alignItems: 'center', gap: '8px', display: 'flex'}}>
-                <div className="BaseInvoiceDetails" style={{flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', display: 'inline-flex'}}>
-                  <div className="BaseInvoiceNo" style={{height: '18px', justifyContent: 'flex-start', alignItems: 'flex-start', display: 'inline-flex'}}>
-                    <div className="Address" style={{color: '#12274A', fontSize: '16px', fontFamily: 'Roboto', fontWeight: '500', lineHeight: '21px', wordWrap: 'break-word'}}><b>Address</b></div>
-                  </div>
+              </div>
+            </th>
+            <th className="BaseId" style={{flex: '1 1 0', height: '18px', justifyContent: 'flex-start', alignItems: 'center', gap: '8px', display: 'flex'}}>
+              <div className="BaseInvoiceDetails" style={{flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', display: 'inline-flex'}}>
+                <div className="BaseInvoiceNo" style={{height: '18px', justifyContent: 'flex-start', alignItems: 'flex-start', display: 'inline-flex'}}>
+                  <div className="Address" style={{color: '#12274A', fontSize: '16px', fontFamily: 'Roboto', fontWeight: '500', lineHeight: '21px', wordWrap: 'break-word'}}><b>Address</b></div>
                 </div>
-              </th>
-              <th className="BaseId" style={{flex: '1 1 0', height: '18px', justifyContent: 'flex-start', alignItems: 'center', gap: '8px', display: 'flex'}}>
-                <div className="BaseInvoiceDetails" style={{flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', display: 'inline-flex'}}>
-                  <div className="BaseInvoiceNo" style={{height: '18px', justifyContent: 'flex-start', alignItems: 'flex-start', display: 'inline-flex'}}>
-                    <div className="Eta" style={{color: '#12274A', fontSize: '16px', fontFamily: 'Roboto', fontWeight: '500', lineHeight: '21px', wordWrap: 'break-word'}}><b>ETA</b></div>
-                  </div>
+              </div>
+            </th>
+            <th className="BaseId" style={{flex: '1 1 0', height: '18px', justifyContent: 'flex-start', alignItems: 'center', gap: '8px', display: 'flex'}}>
+              <div className="BaseInvoiceDetails" style={{flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', display: 'inline-flex'}}>
+                <div className="BaseInvoiceNo" style={{height: '18px', justifyContent: 'flex-start', alignItems: 'flex-start', display: 'inline-flex'}}>
+                  <div className="Eta" style={{color: '#12274A', fontSize: '16px', fontFamily: 'Roboto', fontWeight: '500', lineHeight: '21px', wordWrap: 'break-word'}}><b>ETA</b></div>
                 </div>
-              </th>
-              <th className="BaseId" style={{flex: '1 1 0', height: '18px', justifyContent: 'flex-start', alignItems: 'center', gap: '8px', display: 'flex'}}>
-                <div className="BaseInvoiceDetails" style={{flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', display: 'inline-flex'}}>
-                  <div className="BaseInvoiceNo" style={{height: '18px', justifyContent: 'flex-start', alignItems: 'flex-start', display: 'inline-flex'}}>
-                    <div className="Etc" style={{color: '#12274A', fontSize: '16px', fontFamily: 'Roboto', fontWeight: '500', lineHeight: '21px', wordWrap: 'break-word'}}><b>ETC</b></div>
-                  </div>
+              </div>
+            </th>
+            <th className="BaseId" style={{flex: '1 1 0', height: '18px', justifyContent: 'flex-start', alignItems: 'center', gap: '8px', display: 'flex'}}>
+              <div className="BaseInvoiceDetails" style={{flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', display: 'inline-flex'}}>
+                <div className="BaseInvoiceNo" style={{height: '18px', justifyContent: 'flex-start', alignItems: 'flex-start', display: 'inline-flex'}}>
+                  <div className="Etc" style={{color: '#12274A', fontSize: '16px', fontFamily: 'Roboto', fontWeight: '500', lineHeight: '21px', wordWrap: 'break-word'}}><b>ETC</b></div>
                 </div>
-              </th>
-              <th className="BaseTableHeader" style={{flex: '1 1 0', height: '24px', justifyContent: 'flex-start', alignItems: 'center', gap: '16px', display: 'flex'}}>
-                <div className="BaseDueDetails" style={{justifyContent: 'flex-start', alignItems: 'center', gap: '4px', display: 'flex'}}>
-                  <div className="BaseDueDate" style={{justifyContent: 'flex-start', alignItems: 'flex-start', display: 'flex'}}>
-                    <div className="Status" style={{color: '#12274A', fontSize: '16px', fontFamily: 'Roboto', fontWeight: '500', lineHeight: '21px', wordWrap: 'break-word'}}><b>Status</b></div>
-                  </div>
+              </div>
+            </th>
+            <th className="BaseTableHeader" style={{flex: '1 1 0', height: '24px', justifyContent: 'flex-start', alignItems: 'center', gap: '16px', display: 'flex'}}>
+              <div className="BaseDueDetails" style={{justifyContent: 'flex-start', alignItems: 'center', gap: '4px', display: 'flex'}}>
+                <div className="BaseDueDate" style={{justifyContent: 'flex-start', alignItems: 'flex-start', display: 'flex'}}>
+                  <div className="Status" style={{color: '#12274A', fontSize: '16px', fontFamily: 'Roboto', fontWeight: '500', lineHeight: '21px', wordWrap: 'break-word'}}><b>Status</b></div>
                 </div>
-              </th>
-              <th className="BaseTableHeader" style={{flex: '1 1 0', height: '24px', justifyContent: 'flex-end', alignItems: 'center', gap: '16px', display: 'flex'}}>
-                <div className="BaseDueDetails" style={{justifyContent: 'flex-start', alignItems: 'center', gap: '4px', display: 'flex'}}>
-                  <div className="BaseDueDate" style={{justifyContent: 'flex-start', alignItems: 'flex-start', display: 'flex'}}>
-                    <div className="Actions" style={{color: '#12274A', fontSize: '16px', fontFamily: 'Roboto', fontWeight: '500', lineHeight: '21px', wordWrap: 'break-word'}}><b>Actions</b></div>
-                  </div>
+              </div>
+            </th>
+            <th className="BaseTableHeader" style={{flex: '1 1 0', height: '24px', justifyContent: 'flex-end', alignItems: 'center', gap: '16px', display: 'flex'}}>
+              <div className="BaseDueDetails" style={{justifyContent: 'flex-start', alignItems: 'center', gap: '4px', display: 'flex'}}>
+                <div className="BaseDueDate" style={{justifyContent: 'flex-start', alignItems: 'flex-start', display: 'flex'}}>
+                  <div className="Actions" style={{color: '#12274A', fontSize: '16px', fontFamily: 'Roboto', fontWeight: '500', lineHeight: '21px', wordWrap: 'break-word'}}><b>Actions</b></div>
                 </div>
-              </th>
-            {/* </div> */}
+              </div>
+            </th>
           </tr>
         </thead>
         <tbody>
           {trips.map((trip) => (
-            // <tr key={trip.id} style={{flex: '1 1 0', height: '18px', justifyContent: 'flex-start', alignItems: 'center', gap: '8px', display: 'flex'}}>
-            //   <td style={{flex: '1 1 0', height: '18px', justifyContent: 'flex-start', alignItems: 'center', gap: '8px', display: 'flex'}}>{users.find(user => user.id === trip.assignee_id).full_name}</td>
-            //   <td style={{flex: '1 1 0', height: '18px', justifyContent: 'flex-start', alignItems: 'center', gap: '8px', display: 'flex'}}>{users.find(user => user.id === trip.owner_id).full_name}</td>
-            //   <td style={{flex: '1 1 0', height: '18px', justifyContent: 'flex-start', alignItems: 'center', gap: '8px', display: 'flex'}}>{trip.address}</td>
-            //   <td style={{flex: '1 1 0', height: '16px', justifyContent: 'flex-start', alignItems: 'center', gap: '4px', display: 'flex'}}>{trip.eta}</td>
-            //   <td style={{flex: '1 1 0', height: '16px', justifyContent: 'flex-start', alignItems: 'center', gap: '4px', display: 'flex'}}s>{trip.etc}</td>
-            //   <td style={{flex: '1 1 0', height: '28px', justifyContent: 'flex-start', alignItems: 'flex-start', display: 'flex'}}>{trip.status}</td>
-            //   <td style={{flex: '1 1 0', height: '28px', borderRadius: '4px', overflow: 'hidden', justifyContent: 'flex-end', alignItems: 'flex-start', gap: '1px', display: 'flex'}}>
-            //     <button onClick={() => props.onEdit(trip.id)}>CHECK IN</button>
-            //     {
-            //       (trip.owner_id == current_user_id || 
-            //         trip.assignee_id == current_user_id) && 
-            //         <EditTripModal trip={trip} users={users} currentUserId={current_user_id} />
-            //       }
-            //   </td>
-            // </tr>
-            <TripTableRow key={trip.id} trip={trip} users={users} currentUserId={current_user_id} />
+            <TripTableRow key={trip.id} trip={trip} users={users} tripEdited={tripEdited} />
           ))}
         </tbody>
       </table>
@@ -125,92 +108,70 @@ const TripsDashboard = ({ current_user_id }) => {
   );
 };
 
-const TripTableRow = ({ trip, users, currentUserId }) => {
+const TripTableRow = ({ trip, users, tripEdited }) => {
   return (
-    <tr style={{width: '1184px', height: '41px', paddingRight: '8px', background: '#FBFDFF', borderRadius: '4px', overflow: 'hidden', justifyContent: 'flex-start', alignItems: 'center', gap: '8px', display: 'inline-flex'}}>
-      {/* <div style={{width: 3, height: '41px', position: 'relative'}} /> */}
-      {/* <div style={{flex: '1 1 0', height: '28px', justifyContent: 'flex-start', alignItems: 'center', gap: '8px', display: 'flex'}}> */}
-        <td style={{flex: '1 1 0', paddingLeft: '8px', height: '18px', justifyContent: 'flex-start', alignItems: 'center', gap: '8px', display: 'flex'}}>
-          <div style={{flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', display: 'inline-flex'}}>
-            <div style={{height: '18px', justifyContent: 'flex-start', alignItems: 'flex-start', display: 'inline-flex'}}>
-              <div style={{color: '#12274A', fontSize: '16px', fontFamily: 'Roboto', fontWeight: '400', lineHeight: '21px', wordWrap: 'break-word'}}>
-                {users.find(user => user.id === trip.assignee_id).full_name}
-              </div>
+    <tr style={{width: '100%', height: '41px', paddingRight: '8px', background: '#FBFDFF', borderRadius: '4px', overflow: 'hidden', justifyContent: 'flex-start', alignItems: 'center', gap: '8px', display: 'inline-flex'}}>
+      <td style={{flex: '1 1 0', paddingLeft: '8px', minHeight: '18px', justifyContent: 'flex-start', alignItems: 'center', gap: '8px', display: 'flex'}}>
+        <div style={{flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', display: 'inline-flex'}}>
+          <div style={{minHeight: '18px', justifyContent: 'flex-start', alignItems: 'flex-start', display: 'inline-flex'}}>
+            <div style={{color: '#12274A', fontSize: '16px', fontFamily: 'Roboto', fontWeight: '400', lineHeight: '21px', wordWrap: 'break-word'}}>
+              {users.find(user => user.id === trip.assignee_id).email}
             </div>
           </div>
-        </td>
-        <td style={{flex: '1 1 0', height: '18px', justifyContent: 'flex-start', alignItems: 'center', gap: '8px', display: 'flex'}}>
-          <div style={{flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', display: 'inline-flex'}}>
-            <div style={{height: '18px', justifyContent: 'flex-start', alignItems: 'flex-start', display: 'inline-flex'}}>
-              <div style={{color: '#12274A', fontSize: '16px', fontFamily: 'Roboto', fontWeight: '400', lineHeight: '21px', wordWrap: 'break-word'}}>
-                {users.find(user => user.id === trip.owner_id).full_name}
-              </div>
+        </div>
+      </td>
+      <td style={{flex: '1 1 0', height: '18px', justifyContent: 'flex-start', alignItems: 'center', gap: '8px', display: 'flex'}}>
+        <div style={{flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', display: 'inline-flex'}}>
+          <div style={{height: '18px', justifyContent: 'flex-start', alignItems: 'flex-start', display: 'inline-flex'}}>
+            <div style={{color: '#12274A', fontSize: '16px', fontFamily: 'Roboto', fontWeight: '400', lineHeight: '21px', wordWrap: 'break-word'}}>
+              {users.find(user => user.id === trip.owner_id).email}
             </div>
           </div>
-        </td>
-        <td style={{flex: '1 1 0', height: '18px', justifyContent: 'flex-start', alignItems: 'center', gap: '8px', display: 'flex'}}>
-          <div style={{flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', display: 'inline-flex'}}>
-            <div style={{height: '18px', justifyContent: 'flex-start', alignItems: 'flex-start', display: 'inline-flex'}}>
-              <div style={{color: '#12274A', fontSize: '16px', fontFamily: 'Roboto', fontWeight: '400', lineHeight: '21px', wordWrap: 'break-word'}}>
-                {trip.address}
-              </div>
+        </div>
+      </td>
+      <td style={{flex: '1 1 0', height: '18px', justifyContent: 'flex-start', alignItems: 'center', gap: '8px', display: 'flex'}}>
+        <div style={{flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', display: 'inline-flex'}}>
+          <div style={{justifyContent: 'flex-start', alignItems: 'flex-start', display: 'inline-flex'}}>
+            <div style={{color: '#12274A', fontSize: '16px', fontFamily: 'Roboto', fontWeight: '400', lineHeight: '21px', wordWrap: 'break-word'}}>
+              {trip.address}
             </div>
           </div>
-        </td>
-        <td style={{flex: '1 1 0', height: '16px', justifyContent: 'flex-start', alignItems: 'center', gap: '4px', display: 'flex'}}>
-          <div style={{justifyContent: 'flex-start', alignItems: 'flex-start', display: 'flex'}}>
-            <div style={{color: '#536B95', fontSize: '12px', fontFamily: 'Roboto', fontWeight: '400', lineHeight: '16px', wordWrap: 'break-word'}}>
-              {dayjs(trip.eta).format(standardDateTimeFormat)}
-            </div>
+        </div>
+      </td>
+      <td style={{flex: '1 1 0', height: '16px', justifyContent: 'flex-start', alignItems: 'center', gap: '4px', display: 'flex'}}>
+        <div style={{justifyContent: 'flex-start', alignItems: 'flex-start', display: 'flex'}}>
+          <div style={{color: '#536B95', fontSize: '12px', fontFamily: 'Roboto', fontWeight: '400', lineHeight: '16px', wordWrap: 'break-word'}}>
+            {dayjs(trip.eta).format(standardDateTimeFormat)}
           </div>
-        </td>
-        <td style={{flex: '1 1 0', height: '16px', justifyContent: 'flex-start', alignItems: 'center', gap: '4px', display: 'flex'}}>
-          <div style={{justifyContent: 'flex-start', alignItems: 'flex-start', display: 'flex'}}>
-            <div style={{color: '#536B95', fontSize: '12px', fontFamily: 'Roboto', fontWeight: '400', lineHeight: '16px', wordWrap: 'break-word'}}>
-              {dayjs(trip.etc).format(standardDateTimeFormat)}
-            </div>
+        </div>
+      </td>
+      <td style={{flex: '1 1 0', height: '16px', justifyContent: 'flex-start', alignItems: 'center', gap: '4px', display: 'flex'}}>
+        <div style={{justifyContent: 'flex-start', alignItems: 'flex-start', display: 'flex'}}>
+          <div style={{color: '#536B95', fontSize: '12px', fontFamily: 'Roboto', fontWeight: '400', lineHeight: '16px', wordWrap: 'break-word'}}>
+            {dayjs(trip.etc).format(standardDateTimeFormat)}
           </div>
-        </td>
-        <td style={{flex: '1 1 0', height: '28px', justifyContent: 'flex-start', alignItems: 'flex-start', display: 'flex'}}>
-          {/* <div style={{paddingLeft: '8px', paddingRight: '8px', paddingTop: '4px', paddingBottom: '4px', background: '#6994DE', borderRadius: '4px', justifyContent: 'flex-start', alignItems: 'center', gap: '8px', display: 'flex'}}>
-            <div style={{minWidth: '73px', justifyContent: 'flex-start', alignItems: 'center', gap: '4px', display: 'flex'}}>
-              <div style={{minWidth: '16px', alignSelf: 'stretch', justifyContent: 'flex-start', alignItems: 'center', display: 'flex'}}>
-                <div style={{justifyContent: 'flex-start', alignItems: 'flex-start', gap: '10px', display: 'flex'}}>
-                  <div style={{justifyContent: 'flex-start', alignItems: 'flex-start', gap: '10px', display: 'flex'}}>
-                    <div style={{minWidth: '16px', height: '16px', position: 'relative'}}>
-                      <div style={{minWidth: '14.67px', height: '13.95px', left: '0.67px', top: '0.53px', position: 'absolute', background: 'white'}}></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div style={{color: 'white', fontSize: '12px', fontFamily: 'Roboto', fontWeight: '400', lineHeight: '16px', wordWrap: 'break-word'}}>
-                {trip.status}
-                
-              </div>
-            </div>
-          </div> */}
-          <Status status={trip.status} />
-        </td>
+        </div>
+      </td>
+      <td style={{flex: '1 1 0', height: '28px', justifyContent: 'flex-start', alignItems: 'flex-start', display: 'flex'}}>
+        <Status status={trip.status} />
+      </td>
 
-        <td style={{height: '28px', minWidth: '206px', borderRadius: '4px', overflow: 'hidden', justifyContent: 'flex-end', alignItems: 'flex-start', gap: '1px', display: 'flex'}}>
-          {/* <div style={{minWidth: '78.90px', paddingLeft: '12.45px', paddingRight: '12.45px', borderTopLeftRadius: '4px', borderTopRightRadius: '4px', borderBottomLeftRadius: '4px', borderBottomRightRadius: '4px', overflow: 'hidden', justifyContent: 'center', alignItems: 'center', display: 'flex'}}> */}
-            <div style={{justifyContent: 'flex-start', alignItems: 'center', gap: '4px', display: 'flex'}}>
-              <div style={{color: 'white', paddingLeft: '12.45px', paddingRight: '12.45px', borderRadius: '4px', background: '#1A6EFB', fontSize: '12px', fontFamily: 'Roboto', fontWeight: '500', textTransform: 'uppercase', lineHeight: '14.40px', wordWrap: 'break-word'}}>
-                <button style={{paddingTop: '4px', paddingBottom: '4px', padding: '4px', background: 'transparent', border: 'none', color: 'white'}} onClick={() => props.onEdit(trip.id)}>CHECK IN</button>
-              </div>
-              {
-              (trip.owner_id == current_user_id || 
-                trip.assignee_id == current_user_id) && 
-                (
-                  <div style={{background: '#1A6EFB', paddingLeft: '12.45px', paddingRight: '12.45px', borderRadius: '4px', color: 'white', fontSize: '12px', fontFamily: 'Roboto', fontWeight: '500', textTransform: 'uppercase', lineHeight: '14.40px', wordWrap: 'break-word'}}>
-                    <EditTripModal trip={trip} users={users} currentUserId={current_user_id} />
-                  </div>
-                )
-              }
+      <td style={{height: '28px', minWidth: '206px', borderRadius: '4px', overflow: 'hidden', justifyContent: 'flex-end', alignItems: 'flex-start', gap: '1px', display: 'flex'}}>
+          <div style={{justifyContent: 'flex-start', alignItems: 'center', gap: '4px', display: 'flex'}}>
+            <div style={{color: 'white', paddingLeft: '12.45px', paddingRight: '12.45px', borderRadius: '4px', background: '#1A6EFB', fontSize: '12px', fontFamily: 'Roboto', fontWeight: '500', textTransform: 'uppercase', lineHeight: '14.40px', wordWrap: 'break-word'}}>
+              <button style={{paddingTop: '4px', paddingBottom: '4px', padding: '4px', background: 'transparent', border: 'none', color: 'white'}} onClick={() => props.onEdit(trip.id)}>CHECK IN</button>
             </div>
-          {/* </div> */}
-        </td>
-      {/* </div> */}
+            {
+            (trip.owner_id == current_user_id || 
+              trip.assignee_id == current_user_id) && 
+              (
+                <div style={{background: '#1A6EFB', paddingLeft: '12.45px', paddingRight: '12.45px', borderRadius: '4px', color: 'white', fontSize: '12px', fontFamily: 'Roboto', fontWeight: '500', textTransform: 'uppercase', lineHeight: '14.40px', wordWrap: 'break-word'}}>
+                  <EditTripModal trip={trip} users={users} tripEdited={tripEdited} />
+                </div>
+              )
+            }
+          </div>
+      </td>
     </tr>
   );
 };

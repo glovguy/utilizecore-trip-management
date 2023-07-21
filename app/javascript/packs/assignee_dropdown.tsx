@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import Dropdown from 'react-dropdown';
+import Select from 'react-select'
+
 
 
 const AssigneeDropdown = ({ users, selectedAssignee, setSelectedAssignee }) => {
@@ -8,10 +9,10 @@ const AssigneeDropdown = ({ users, selectedAssignee, setSelectedAssignee }) => {
   });
   
   return (
-    <Dropdown options={options} 
-              value={selectedAssignee}
-              onChange={setSelectedAssignee}
-              placeholder="Select an option" />
+    <Select options={options} 
+            value={selectedAssignee}
+            onChange={setSelectedAssignee}
+            placeholder="Select an option" />
   );
 }
 

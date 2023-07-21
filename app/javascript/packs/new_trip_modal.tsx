@@ -15,7 +15,7 @@ const customStyles = {
   },
 };
 
-function NewTripModal({ users, currentUserId }) {
+function NewTripModal({ users, currentUserId, newTripCreated }) {
   const [modalIsOpen, setIsOpen] = React.useState(false);
   const [selectedAssignee, setSelectedAssignee] = React.useState();
   const [address, setAddress] = React.useState('');
@@ -34,7 +34,7 @@ function NewTripModal({ users, currentUserId }) {
     return <div>Loading...</div>
   }
 
-  const createTrip = () => {
+  const createTrip = async () => {
     if (!selectedAssignee || 
       !selectedAssignee.value ||
       !currentUserId ||
@@ -50,14 +50,16 @@ function NewTripModal({ users, currentUserId }) {
       eta: JSON.stringify(eta),
       etc: JSON.stringify(etc)
     };
-    fetch('/trips', {
+    const response = await fetch('/trips', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(payload)
-    }).then(() => closeModal());
-    console.log(payload);
+    })
+    const data = await response.json();
+    newTripCreated(data);
+    closeModal()
   };
 
   return (
@@ -106,7 +108,7 @@ function NewTripModal({ users, currentUserId }) {
 
 const CreateTripModalHeader = ({ closeModal }) => {
   return (
-    <div style={{width: '500px', height: 48, padding: 8, justifyContent: 'flex-start', alignItems: 'center', gap: 8, display: 'inline-flex'}}>
+    <div style={{width: '500px', height: '48px', padding: '8px', justifyContent: 'flex-start', alignItems: 'center', gap: '8px', display: 'inline-flex'}}>
       <div style={{flex: '1 1 0', height: '32px', justifyContent: 'flex-start', alignItems: 'center', gap: '4px', display: 'flex'}}>
         <div style={{justifyContent: 'flex-start', alignItems: 'flex-start', display: 'flex'}}>
           <div style={{justifyContent: 'flex-start', alignItems: 'flex-start', gap: '10px', display: 'flex'}}>
@@ -128,7 +130,7 @@ const CreateTripModalHeader = ({ closeModal }) => {
           </div>
         </div>
         <div style={{paddingTop: '2px', paddingBottom: '2px', justifyContent: 'flex-start', alignItems: 'center', gap: '10px', display: 'flex'}}>
-          <div style={{color: '#12274A', fontSize: '22px', fontFamily: 'Roboto', fontWeight: '400', lineHeight: 28, wordWrap: 'break-word'}}>Create New</div>
+          <div style={{color: '#12274A', fontSize: '22px', fontFamily: 'Roboto', fontWeight: '400', lineHeight: '28px', wordWrap: 'break-word'}}>Create New</div>
         </div>
       </div>
       <div style={{justifyContent: 'flex-start', alignItems: 'flex-start', gap: '10px', display: 'flex'}}>
@@ -155,7 +157,7 @@ const CreateTripModalHeader = ({ closeModal }) => {
 
 const CreateTripModalFooter = ({ createTrip }) => {
   return (
-    <div style={{width: '500px', height: '36px', paddingLeft: '16px', paddingRight: '16px', justifyContent: 'center', alignItems: 'center', gap: 8, display: 'inline-flex'}}>
+    <div style={{width: '500px', height: '36px', paddingLeft: '16px', paddingRight: '16px', justifyContent: 'center', alignItems: 'center', gap: '8px', display: 'inline-flex'}}>
       <div style={{width: '124px', height: '36px', paddingLeft: '16px', paddingRight: '16px', background: '#1A6EFB', borderRadius: '4px', overflow: 'hidden', justifyContent: 'center', alignItems: 'center', display: 'flex'}}>
         <div style={{justifyContent: 'flex-start', alignItems: 'center', gap: '4px', display: 'flex'}}>
           <button onClick={createTrip} style={{cursor: 'pointer', border: 'none', backgroundColor: 'transparent', color: 'white', fontSize: '16px', fontFamily: 'Roboto', fontWeight: '500', textTransform: 'uppercase', lineHeight: '19.20px', wordWrap: 'break-word'}}>CREATE</button>
@@ -173,9 +175,9 @@ const CreateTripModalBody = ({
   etc, setEtc
 }) => {
   return (
-    <div style={{width: '500px', height: '236px', padding: '16px', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', gap: '16px', display: 'inline-flex'}}>
-      <div style={{alignSelf: 'stretch', minHeight: '204px', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', gap: 8, display: 'flex'}}>
-        <div style={{alignSelf: 'stretch', height: '45px', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', gap: 1, display: 'flex'}}>
+    <div style={{minWidth: '500px', minHeight: '236px', padding: '16px', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', gap: '16px', display: 'inline-flex'}}>
+      <div style={{alignSelf: 'stretch', minHeight: '204px', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', gap: '8px', display: 'flex'}}>
+        <div style={{paddingBottom: '8px', alignSelf: 'stretch', height: '45px', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', gap: 1, display: 'flex'}}>
           <div style={{alignSelf: 'stretch', justifyContent: 'flex-start', alignItems: 'center', display: 'inline-flex'}}>
             <div style={{flex: '1 1 0', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', display: 'inline-flex'}}>
               <div style={{alignSelf: 'stretch', height: '13px', borderTopLeftRadius: '4px', borderTopRightRadius: '4px', justifyContent: 'flex-start', alignItems: 'flex-start', display: 'inline-flex'}}>
@@ -216,7 +218,7 @@ const CreateTripModalBody = ({
             </div>
           </div>
         </div>
-        <div style={{alignSelf: 'stretch', height: '45px', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', gap: 1, display: 'flex'}}>
+        <div style={{paddingTop: '8px', paddingBottom: '8px', alignSelf: 'stretch', height: '45px', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', gap: 1, display: 'flex'}}>
           <div style={{alignSelf: 'stretch', justifyContent: 'flex-start', alignItems: 'center', display: 'inline-flex'}}>
             <div style={{flex: '1 1 0', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', display: 'inline-flex'}}>
               <div style={{alignSelf: 'stretch', height: '13px', borderTopLeftRadius: '4px', borderTopRightRadius: '4px', justifyContent: 'flex-start', alignItems: 'flex-start', display: 'inline-flex'}}>
@@ -238,14 +240,13 @@ const CreateTripModalBody = ({
               <div style={{alignSelf: 'stretch', paddingBottom: '12px', paddingLeft: '12px', paddingRight: '12px', background: '#FBFDFF', borderBottomLeftRadius: '4px', borderBottomRightRadius: '4px', borderLeft: '0.50px #536B95 solid', borderRight: '0.50px #536B95 solid', borderBottom: '0.50px #536B95 solid', justifyContent: 'flex-start', alignItems: 'flex-start', display: 'inline-flex'}}>
                 <div style={{flex: '1 1 0', minHeight: '20px', justifyContent: 'flex-start', alignItems: 'flex-start', display: 'flex'}}>
                   <textarea value={address} onChange={(e) => setAddress(e.target.value)} style={{flex: '1 1 0', minHeight: '20px', justifyContent: 'flex-start', alignItems: 'flex-start', gap: '10px', display: 'flex', background: 'transparent', border: 'none'}}>
-                    {/* <div style={{color: '#12274A', fontSize: '14px', fontFamily: 'Roboto', fontWeight: '400', lineHeight: '20px', wordWrap: 'break-word'}}>Select Address</div> */}
                   </textarea>
                 </div>
               </div>
             </div>
           </div>
         </div>
-        <div style={{flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', gap: 1, display: 'flex'}}>
+        <div style={{paddingTop: '8px', paddingBottom: '8px', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', gap: 1, display: 'flex'}}>
           <div style={{width: '195px', justifyContent: 'flex-start', alignItems: 'center', display: 'inline-flex'}}>
             <div style={{flex: '1 1 0', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', display: 'inline-flex'}}>
               <div style={{alignSelf: 'stretch', height: '13px', borderTopLeftRadius: '4px', borderTopRightRadius: '4px', justifyContent: 'flex-start', alignItems: 'flex-start', display: 'inline-flex'}}>
@@ -267,8 +268,6 @@ const CreateTripModalBody = ({
               <div style={{alignSelf: 'stretch', paddingBottom: '12px', paddingLeft: '12px', paddingRight: '12px', background: '#FBFDFF', borderBottomLeftRadius: '4px', borderBottomRightRadius: '4px', borderLeft: '0.50px #536B95 solid', borderRight: '0.50px #536B95 solid', borderBottom: '0.50px #536B95 solid', justifyContent: 'flex-start', alignItems: 'flex-start', display: 'inline-flex'}}>
                 <div style={{flex: '1 1 0', height: '20px', justifyContent: 'flex-start', alignItems: 'flex-start', display: 'flex'}}>
                   <DatePicker selected={eta} onChange={setEta} format={'MM/DD/YYYY - hh:mm'} />
-                  {/* style={{flex: '1 1 0', height: '20px', justifyContent: 'flex-start', alignItems: 'flex-start', gap: '10px', display: 'flex'}} */}
-                    {/* <div style={{color: '#12274A', fontSize: '14px', fontFamily: 'Roboto', fontWeight: '400', lineHeight: '20px', wordWrap: 'break-word'}}>MM/DD/YYYY - 00:00</div> */}
                 </div>
               </div>
             </div>
@@ -296,9 +295,6 @@ const CreateTripModalBody = ({
               <div style={{alignSelf: 'stretch', paddingBottom: '12px', paddingLeft: '12px', paddingRight: '12px', background: '#FBFDFF', borderBottomLeftRadius: '4px', borderBottomRightRadius: '4px', borderLeft: '0.50px #536B95 solid', borderRight: '0.50px #536B95 solid', borderBottom: '0.50px #536B95 solid', justifyContent: 'flex-start', alignItems: 'flex-start', display: 'inline-flex'}}>
                 <div style={{flex: '1 1 0', height: '20px', justifyContent: 'flex-start', alignItems: 'flex-start', display: 'flex'}}>
                 <DatePicker selected={etc} onChange={setEtc} format={'MM/DD/YYYY - hh:mm'} />
-                  {/* <DateTimePicker value={etc} onChange={setEtc} style={{flex: '1 1 0', height: '20px', justifyContent: 'flex-start', alignItems: 'flex-start', gap: '10px', display: 'flex'}} /> */}
-                    {/* <div style={{color: '#12274A', fontSize: '14px', fontFamily: 'Roboto', fontWeight: '400', lineHeight: '20px', wordWrap: 'break-word'}}>MM/DD/YYYY - 00:00</div> */}
-                  
                 </div>
               </div>
             </div>
