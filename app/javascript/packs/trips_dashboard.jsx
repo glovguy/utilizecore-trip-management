@@ -10,7 +10,6 @@ dayjs.extend(customParseFormat);
 const standardDateTimeFormat = 'MM/DD/YYYY h:mm A';
 
 const TripsDashboard = ({ current_user_id }) => {
-  console.log(current_user_id)
   const [trips, setTrips] = useState();
   const [users, setUsers] = useState();
 
@@ -28,7 +27,7 @@ const TripsDashboard = ({ current_user_id }) => {
     fetchTrips();
     fetchUsers();
   }, []);
-  if (!trips) { return <span>Loading...</span>; }
+  if (!trips || !users) { return <span>Loading...</span>; }
   
   const newTripCreated = (newTrip) => {
     setTrips([...trips, newTrip]);

@@ -1,6 +1,6 @@
 class SessionsController < ApplicationController
   def index
-    initialize_session if safe_params[:action] == "login"
+    initialize_session if safe_params[:commit] == "Log In"
   end
 
   private
@@ -17,6 +17,6 @@ class SessionsController < ApplicationController
   end
 
   def safe_params
-    params.permit(:email).permit(:action)
+    params.permit(:email, :commit)
   end
 end

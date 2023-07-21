@@ -24,8 +24,8 @@
     - [x] Display edit button only to assignees/owners
     - [x] assignee re-selection
 - [x] Assignees seed script
-- [ ] Front end polish
-  - [ ] Login page
+- [x] Front end polish
+  - [x] Login page
   - [x] Trip review page
   - [x] Trip create modal
   - [x] Trip reassign modal

@@ -1,6 +1,49 @@
 
-<%= form_tag(login_path, method: :get) do %>
-  <%= label_tag(:email, "Email Address:") %>
-  <%= text_field_tag(:email, params[:email]) %><p>
-  <%= submit_tag("Log In") %>
+<div style="background: white; height: 680px">
+<%= form_tag(login_path, method: :get, style: "padding: 16px") do %>
+  <div class="AccountSetupForm" style="margin: 0 auto; width: 482px; height: 168px; padding-bottom: 32px; padding-left: 16px; padding-right: 16px; flex-direction: column; justify-content: flex-start; align-items: flex-start; gap: 16px">
+    <div class="Form" style="align-self: stretch; height: 78px; padding: 16px; border-radius: 8px; flex-direction: column; justify-content: flex-start; align-items: flex-start; gap: 32px; display: flex">
+      <div class="Frame18940" style="align-self: stretch; height: 46px; flex-direction: column; justify-content: flex-start; align-items: flex-start; gap: 16px; display: flex">
+        <div class="InputFieldV2" style="width: 418px; height: 46px; position: relative; border-radius: 4px">
+          <div class="InputHint" style="height: 42px; width: 100%; left: 0px; top: 4px; position: absolute; flex-direction: column; justify-content: flex-start; align-items: flex-start; display: inline-flex">
+            <div class="Input" style="align-self: stretch; height: 42px; background: #FBFDFF; border-radius: 4px; border: 0.50px #859ABF solid; flex-direction: column; justify-content: flex-start; align-items: flex-start; gap: 10px; display: flex">
+              <div class="BaseInput" style="align-self: stretch; padding-left: 12px; padding-right: 12px; padding-top: 11px; padding-bottom: 11px; justify-content: flex-start; align-items: center; gap: 4px; display: inline-flex">
+                <div class="BaseInputText" style="flex: 1 1 0; align-self: stretch; justify-content: flex-start; align-items: center; gap: 8px; display: flex">
+                  <%
+=begin%>
+ <input class="InputField" placeholder="-" style="color: black; border: none; width: 100%; font-size: 14px; font-family: Roboto; font-weight: 400; line-height: 20px; word-wrap: break-word"></input> 
+<%
+=end%>
+                  <%= text_field_tag(:email, params[:email], placeholder: "-", style: "color: black; border: none; width: 100%; font-size: 14px; font-family: Roboto; font-weight: 400; line-height: 20px; word-wrap: break-word") %>
+                </div>
+                <div class="UcIcon" style="justify-content: flex-start; align-items: flex-start; gap: 10px; display: flex">
+                  <div class="BaseIconSize" style="justify-content: flex-start; align-items: flex-start; gap: 10px; display: flex">
+                    <div class="ArrowDropDown" style="width: 20px; height: 20px; position: relative">
+                      <div class="Vector" style="width: 20px; height: 20px; left: 0px; top: 0px; position: absolute"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="Label" style="width: 34px; height: 6px; left: 0px; top: 0px">
+            <div class="BaseLabel" style="height: 13.50px; padding-left: 1px; padding-right: 2px; left: 10px; top: 0px; position: absolute; background: #FBFDFF; justify-content: flex-start; align-items: flex-end; display: inline-flex">
+              <div class="EmailAddress" style="color: #12274A; font-size: 12px; font-family: Roboto; font-weight: 400; line-height: 16px; word-wrap: break-word">Email Address</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="ActionRow" style="align-self: stretch; height: 42px; flex-direction: column; justify-content: flex-start; align-items: flex-end; gap: 64px">
+      <div class="Btn" style="align-self: stretch; float: right; padding-left: 64px; padding-right: 64px; padding-top: 8px; padding-bottom: 8px; background: #1A6EFB; border-radius: 32px; justify-content: center; align-items: center; display: inline-flex">
+        <%
+=begin%>
+ <div class="LogIn" style="text-align: center; color: #FBFDFF; font-size: 22px; font-family: Roboto; font-weight: 500; line-height: 26.40px; word-wrap: break-word">Log In</div> 
+<%
+=end%>
+        <%= submit_tag("Log In", style: style="cursor: pointer; text-align: center; border: none; background: transparent; color: #FBFDFF; font-size: 22px; font-family: Roboto; font-weight: 500; line-height: 26.40px; word-wrap: break-word") %>
+      </div>
+    </div>
+  </div>
 <% end %>
+</div>

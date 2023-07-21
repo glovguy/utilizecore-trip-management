@@ -8,7 +8,7 @@
 
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
-    <div id="session" style="display: none" data-current-user-id="<%= @current_user.id %>"></div>
+    <div id="session" style="display: none" data-current-user-id="<%= @current_user ? @current_user.id : nil %>"></div>
   </head>
 
   <body>
