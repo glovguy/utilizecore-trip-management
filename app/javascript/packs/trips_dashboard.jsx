@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import { createRoot } from 'react-dom/client';
 import NewTripModal from './new_trip_modal.tsx';
+import EditTripModal from './edit_trip_modal.tsx';
 
 
 const TripsDashboard = ({ current_user_id }) => {
+  console.log(current_user_id)
   const [trips, setTrips] = useState();
   const [users, setUsers] = useState();
 
@@ -25,7 +27,7 @@ const TripsDashboard = ({ current_user_id }) => {
 
   return (
     <>
-    <NewTripModal users={users} owner_id={current_user_id} />
+    <NewTripModal users={users} currentUserId={current_user_id} />
     <table>
       <thead>
         <tr>
@@ -49,7 +51,11 @@ const TripsDashboard = ({ current_user_id }) => {
             <td>{trip.status}</td>
             <td>
               <button onClick={() => props.onEdit(trip.id)}>CHECK IN</button>
-              {/* <button onClick={() => props.onDelete(trip.id)}>CHECK OUT</button> */}
+              {
+                (trip.owner_id == current_user_id || 
+                  trip.assignee_id == current_user_id) && 
+                  <EditTripModal trip={trip} users={users} currentUserId={current_user_id} />
+                }
             </td>
           </tr>
         ))}

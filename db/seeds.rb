@@ -5,3 +5,11 @@
 #
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
+Faker::Config.locale = :en
+
+30.times do
+  User.create(
+    email: Faker::Internet.email,
+    full_name: Faker::Name.name
+  )
+end

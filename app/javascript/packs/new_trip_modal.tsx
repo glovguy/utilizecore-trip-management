@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import Modal from 'react-modal';
-import Dropdown from 'react-dropdown';
+import AssigneeDropdown from './assignee_dropdown.tsx';
 import { DatePicker } from "antd";
 
 
@@ -15,23 +15,7 @@ const customStyles = {
   },
 };
 
-const AssigneeDropdown = ({ users, selectedAssignee, onChange }) => {
-  const options = [...users].map(user => {
-    return { value: user.id, label: user.full_name }
-  });
-  
-  return (
-    <Dropdown options={options} 
-              value={selectedAssignee}
-              onChange={onChange}
-              placeholder="Select an option" />
-  );
-}
-
-// Make sure to bind modal to your appElement (https://reactcommunity.org/react-modal/accessibility/)
-// Modal.setAppElement('#yourAppElement');
-
-function NewTripModal({ users, owner_id }) {
+function NewTripModal({ users, currentUserId }) {
   const [modalIsOpen, setIsOpen] = React.useState(false);
   const [selectedAssignee, setSelectedAssignee] = React.useState();
   const [address, setAddress] = React.useState('');
@@ -53,7 +37,7 @@ function NewTripModal({ users, owner_id }) {
   const createTrip = () => {
     if (!selectedAssignee || 
       !selectedAssignee.value ||
-      !owner_id ||
+      !currentUserId ||
       !address ||
       !eta ||
       !etc) {
@@ -61,7 +45,7 @@ function NewTripModal({ users, owner_id }) {
     }
     const payload = {
       assignee_id: selectedAssignee.value,
-      owner_id: owner_id,
+      owner_id: currentUserId,
       address: address,
       eta: JSON.stringify(eta),
       etc: JSON.stringify(etc)
@@ -72,7 +56,7 @@ function NewTripModal({ users, owner_id }) {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(payload)
-    });
+    }).then(() => closeModal());
     console.log(payload);
   };
 
@@ -85,32 +69,25 @@ function NewTripModal({ users, owner_id }) {
         style={customStyles}
         contentLabel="Create New Trip Modal"
       >
-        <CreateTripModalHeader /><p />
-        {/* <form> */}
-          {/* <AssigneeDropdown users={users} onChange={setSelectedAssignee} /><p />
-          Address: <input onChange={(e) => setAddress(e.target.value)} value={address} ></input><p />
-          ETA: <DatePicker /><p />
-          ETC: <input></input><p /> */}
-          <CreateTripModalBody 
-            users={users}
-            selectedAssignee={selectedAssignee}
-            setSelectedAssignee={setSelectedAssignee}
-            address={address}
-            setAddress={setAddress}
-            eta={eta}
-            setEta={setEta}
-            etc={etc}
-            setEtc={setEtc}
-          /><p />
-          <CreateTripModalFooter createTrip={createTrip} />
-        {/* </form> */}
+        <CreateTripModalHeader closeModal={closeModal} /><p />
+        <CreateTripModalBody 
+          users={users}
+          selectedAssignee={selectedAssignee}
+          setSelectedAssignee={setSelectedAssignee}
+          address={address}
+          setAddress={setAddress}
+          eta={eta}
+          setEta={setEta}
+          etc={etc}
+          setEtc={setEtc}
+        /><p />
+        <CreateTripModalFooter createTrip={createTrip} />
       </Modal>
     </div>
   );
 }
 
-
-const CreateTripModalHeader = () => {
+const CreateTripModalHeader = ({ closeModal }) => {
   return (
     <div style={{width: '500px', height: 48, padding: 8, justifyContent: 'flex-start', alignItems: 'center', gap: 8, display: 'inline-flex'}}>
       <div style={{flex: '1 1 0', height: '32px', justifyContent: 'flex-start', alignItems: 'center', gap: '4px', display: 'flex'}}>
@@ -140,9 +117,7 @@ const CreateTripModalHeader = () => {
       <div style={{justifyContent: 'flex-start', alignItems: 'flex-start', gap: '10px', display: 'flex'}}>
         <div style={{justifyContent: 'flex-start', alignItems: 'flex-start', gap: '10px', display: 'flex'}}>
           <div style={{width: '20px', height: '20px', position: 'relative'}}>
-            {/* <div style={{width: '20px', height: '20px', left: '0px', top: '0px', position: 'absolute'}}></div> */}
-            {/* <div style={{width: '11.67px', height: '11.67px', left: '4.17px', top: '4.17px', position: 'absolute', background: '#12274A'}}></div> */}
-            <button style={{'border':'none', 'backgroundColor': 'transparent', 'outline': 'none', 'cursor': 'pointer', 'backgroundRepeat': 'no-repeat'}}>
+            <button onClick={closeModal} style={{'border':'none', 'backgroundColor': 'transparent', 'outline': 'none', 'cursor': 'pointer', 'backgroundRepeat': 'no-repeat'}}>
               <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <g clipPath="url(#clip0_101_96033)">
                   <path d="M15.8333 5.34166L14.6583 4.16666L9.99996 8.82499L5.34163 4.16666L4.16663 5.34166L8.82496 9.99999L4.16663 14.6583L5.34163 15.8333L9.99996 11.175L14.6583 15.8333L15.8333 14.6583L11.175 9.99999L15.8333 5.34166Z" fill="#12274A"/>
@@ -203,16 +178,10 @@ const CreateTripModalBody = ({
                 </div>
               </div>
               <div style={{alignSelf: 'stretch', paddingBottom: '12px', paddingLeft: '12px', paddingRight: '12px', background: '#FBFDFF', borderBottomLeftRadius: '4px', borderBottomRightRadius: '4px', borderLeft: '0.50px #536B95 solid', borderRight: '0.50px #536B95 solid', borderBottom: '0.50px #536B95 solid', justifyContent: 'flex-start', alignItems: 'flex-start', display: 'inline-flex'}}>
-                {/* foo */}
-                <AssigneeDropdown users={users} onChange={setSelectedAssignee} style={{alignSelf: 'stretch', paddingTop: '2px', justifyContent: 'flex-start', alignItems: 'flex-start', gap: '10px', display: 'flex'}} />
-                {/* <div style={{flex: '1 1 0', height: '20px', justifyContent: 'flex-start', alignItems: 'flex-start', display: 'flex'}}>
-                  <div style={{flex: '1 1 0', height: '20px', justifyContent: 'flex-start', alignItems: 'flex-start', gap: '10px', display: 'flex'}}>
-                  </div>
-                </div> */}
+                <AssigneeDropdown users={users} selectedAssignee={selectedAssignee} setSelectedAssignee={setSelectedAssignee} style={{alignSelf: 'stretch', paddingTop: '2px', justifyContent: 'flex-start', alignItems: 'flex-start', gap: '10px', display: 'flex'}} />
                 <div style={{justifyContent: 'center', alignItems: 'center', display: 'flex'}}>
                   <div style={{alignSelf: 'stretch', justifyContent: 'flex-start', alignItems: 'flex-start', gap: '10px', display: 'inline-flex'}}>
                     <div style={{width: '20px', height: '20px', position: 'relative'}}>
-                      {/* <div style={{width: '20px', height: '20px', left: '0px', top: '0px', position: 'absolute'}}></div> */}
                       <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <g clipPath="url(#clip0_101_96060)">
                       <path d="M5.83337 8.33334L10 12.5L14.1667 8.33334H5.83337Z" fill="#12274A"/>
@@ -223,7 +192,6 @@ const CreateTripModalBody = ({
                       </clipPath>
                       </defs>
                       </svg>
-                      {/* <div style={{width: '8.33px', height: '4.17px', left: '5.83px', top: '8.33px', position: 'absolute', background: '#12274A'}}></div> */}
                     </div>
                   </div>
                 </div>

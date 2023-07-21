@@ -14,9 +14,22 @@ class TripsController < ApplicationController
     end
   end
 
+  def update
+    trip = Trip.find(params[:id])
+    if trip.update(assignee_id: trip_create_params[:assignee_id])
+      render json: trip
+    else
+      render json: trip.errors, status: 422
+    end
+  end
+
   private
 
   def trip_create_params
     params.require(:trip).permit(:assignee_id, :owner_id, :address, :eta, :etc)
+  end
+
+  def trip_edit_params
+    params.require(:trip).permit(:assignee_id, :id)
   end
 end
