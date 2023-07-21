@@ -26,7 +26,7 @@
 - [x] Assignees seed script
 - [ ] Front end polish
   - [ ] Login page
-  - [ ] Trip review page
+  - [x] Trip review page
   - [ ] Trip create modal
   - [ ] Trip reassign modal
 

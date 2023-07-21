@@ -56,7 +56,7 @@ function EditTripModal({ users, currentUserId, trip }) {
 
   return (
     <div>
-      <button onClick={openModal}>REASSIGN</button>
+      <button style={{paddingTop: '4px', paddingBottom: '4px', background: 'transparent', border: 'none', color: 'white'}} onClick={openModal}>REASSIGN</button>
       <Modal
         isOpen={modalIsOpen}
         onRequestClose={closeModal}

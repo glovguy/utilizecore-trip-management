@@ -62,7 +62,24 @@ function NewTripModal({ users, currentUserId }) {
 
   return (
     <div>
-      <button onClick={openModal}>+</button>
+      <button onClick={openModal} className="UcBadges" style={{'float': 'right', cursor: 'pointer', width: '28px', height: '28px', padding: '4px', background: '#1A6EFB', borderRadius: '99px', border: 'none', flexDirection: 'column', justifyContent: 'flex-start', alignItems: 'flex-start', gap: '10px', display: 'inline-flex'}}>
+        <div className="UcIcon" style={{justifyContent: 'flex-start', alignItems: 'flex-start', gap: '10px', display: 'inline-flex'}}>
+          <div className="BaseIconSize" style={{justifyContent: 'flex-start', alignItems: 'flex-start', gap: '10px', display: 'flex'}}>
+            <div className="Add" style={{width: '20px', height: '20px', position: 'relative'}}>
+            <svg width="20px" height="20px" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <g clipPath="url(#clip0_101_95406)">
+            <path d="M15.8333 10.8334H10.8333V15.8334H9.16666V10.8334H4.16666V9.16669H9.16666V4.16669H10.8333V9.16669H15.8333V10.8334Z" fill="white"/>
+            </g>
+            <defs>
+            <clipPath id="clip0_101_95406">
+            <rect width="20px" height="20px" fill="white"/>
+            </clipPath>
+            </defs>
+            </svg>
+            </div>
+          </div>
+        </div>
+      </button>
       <Modal
         isOpen={modalIsOpen}
         onRequestClose={closeModal}
